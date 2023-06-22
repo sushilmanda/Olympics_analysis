@@ -12,6 +12,7 @@ region_df = pd.read_csv('noc_regions.csv')
 
 data = helper.preprocess(df, region_df)
 
+st.sidebar.text('Created By Sushil Manda')
 st.sidebar.image('Olympics_image.png')
 
 st.sidebar.header("Olympics Analysis")
