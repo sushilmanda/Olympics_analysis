@@ -15,7 +15,7 @@ def preprocess(d1, d2):
 
 
 def fetch_medal_tally(df, year, country):
-    medal_df = df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
+    medal_df = df.drop_duplicates(subset=['region', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     flag = 0
     if year == 'Overall' and country == 'Overall':
         temp_df = medal_df
@@ -38,7 +38,7 @@ def fetch_medal_tally(df, year, country):
 
 
 def medal_tally(df):
-    medal_data = df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
+    medal_data = df.drop_duplicates(subset=['region', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     medal_data = medal_data.groupby('region').sum()[['Gold', 'Silver', 'Bronze']].reset_index()
     medal_data = medal_data.sort_values(by='Gold', ascending=False).reset_index()
     medal_data['Total'] = medal_data['Gold'] + medal_data['Silver'] + medal_data['Bronze']
@@ -84,7 +84,7 @@ def most_successful(df, sport):
 
 def medal_country_list(df):
     temp_df = df.dropna(subset=['Medal'])
-    temp_df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'], inplace=True)
+    temp_df.drop_duplicates(subset=['region', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'], inplace=True)
     country = np.unique(temp_df['region'].dropna()).tolist()
     country.sort()
     return country
@@ -92,7 +92,7 @@ def medal_country_list(df):
 
 def year_wise_medal_tally(df, country):
     temp_df = df.dropna(subset=['Medal'])
-    temp_df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'], inplace=True)
+    temp_df.drop_duplicates(subset=['region', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'], inplace=True)
     new_df = temp_df[temp_df['region'] == country]
     medal_data = new_df.groupby('Year').count()['Medal'].reset_index()
     country_medal = new_df.pivot_table(index='Sport', columns='Year', values='Medal', aggfunc='count').fillna(0).astype(
